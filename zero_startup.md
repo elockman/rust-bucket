@@ -11,8 +11,6 @@ sudo apt update
 sudo apt install -y net-tools  
 sudo apt install -y wireless-tools  
 
-### Disconnect from WiFi
-
 ### Forget WiFi Networks
 sudo rm /etc/NetworkManager/system-connections/*  
 
@@ -30,6 +28,13 @@ sudo ip link set mesh0 up
 sudo iw dev mesh0 mesh join xmesh  
 sudo ip addr add 10.1.100.10/24 dev mesh0  
 echo "Connected to mesh network xmesh as mesh0 with IP address 10.1.100.10"  
+
+#!/bin/bash  
+sudo ip link set wlan0 down  
+sudo iw dev wlan0 interface add mesh0 type mp  
+sudo ip link set mesh0 up  
+sudo iw dev mesh0 mesh join Xmesh freq 2437  
+sudo ip addr add 10.1.100.10/24 dev mesh0  
 
 ### /etc/rc.local
 #!/bin/sh -e  
