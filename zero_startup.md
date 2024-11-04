@@ -36,6 +36,29 @@ sudo ip link set mesh0 up
 sudo iw dev mesh0 mesh join Xmesh freq 2437  
 sudo ip addr add 10.1.100.10/24 dev mesh0  
 
+### /etc/NetworkManager/system-connections/mesh-network.nmconnection
+[connection]  
+id=mesh-network  
+type=wifi  
+interface-name=mesh0  
+autoconnect=true  
+  
+[wifi]  
+ssid=Xmesh  
+mode=mesh  
+frequency=2437  
+  
+[wifi-security]  
+key-mgmt=NONE  
+  
+[ipv4]  
+method=manual  
+address1=10.1.100.10/24,10.1.100.1  
+dns=8.8.8.8;8.8.4.4  
+  
+[ipv6]  
+method=ignore  
+  
 ### /etc/wpa_supplicant/wpa_supplicant.conf
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev  
 update_config=1  
