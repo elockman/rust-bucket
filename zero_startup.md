@@ -31,10 +31,10 @@ echo "Connected to mesh network xmesh as mesh0 with IP address 10.1.100.10"
 
 #!/bin/bash  
 sudo ip link set wlan0 down  
-sudo iw dev wlan0 interface add mesh0 type mp  
-sudo ip link set mesh0 up  
-sudo iw dev mesh0 mesh join Xmesh freq 2437  
-sudo ip addr add 10.1.100.10/24 dev mesh0  
+sudo iw dev wlan0 set type mp  
+sudo ip link set wlan0 up  
+sudo iw dev wlan0 mesh join Xmesh freq 2437 HT40+  
+sudo ip addr add 10.1.100.10/24 dev wlan0  
 
 ### /etc/NetworkManager/system-connections/mesh-network.nmconnection
 [connection]  
