@@ -122,3 +122,27 @@ sudo systemctl start rc-local
 ### Reboot
 sudo reboot  
 
+### Build Driver for Debian  
+sudo apt update  
+sudo apt install -y build-essential dkms linux-headers-$(uname -r) git  
+git clone https://github.com/openwrt/mt76.git  
+cd mt76  
+sudo mkdir /usr/src/mt76-1.0  
+sudo cp -r * /usr/src/mt76-1.0  
+sudo nano /usr/src/mt76-1.0/dkms.conf  
+  
+PACKAGE_NAME="mt76"  
+PACKAGE_VERSION="1.0"  
+BUILT_MODULE_NAME[0]="mt76"  
+DEST_MODULE_LOCATION[0]="/updates/dkms"  
+AUTOINSTALL="yes"  
+MAKE[0]="make -C /lib/modules/$(uname -r)/build M=${PWD} modules"  
+CLEAN="make -C /lib/modules/$(uname -r)/build M=${PWD} clean"  
+  
+sudo dkms add -m mt76 -v 1.0  
+sudo dkms build -m mt76 -v 1.0  
+sudo dkms install -m mt76 -v 1.0  
+
+sudo modprobe mt76  
+lsmod | grep mt76  
+  
