@@ -10,10 +10,34 @@ Connect to local WiFi
 sudo apt update  
 sudo apt install -y net-tools  
 sudo apt install -y wireless-tools  
+sudo apt install -y isc-dhcp-client  
+sudo apt install -y openssh-server openssh-sftp-server  
+sudo apt install -y firmware-misc-nonfree  
 
-### Forget WiFi Networks
-sudo rm /etc/NetworkManager/system-connections/*  
+sudo dhclient usb0  
+sudo systemctl enable --now radxa-otgutils@udc0  
+  
+sudo systemctl restart ssh  
+sudo systemctl enable ssh  
+sudo systemctl restart networking  
 
+sudo ip link set usb0 up  
+sudo ip addr add 192.168.1.100/24 dev usb0  
+sudo ip addr show usb0
+sudo ip a  
+  
+### /etc/network/interfaces.d/usb  
+auto usb0  
+allow-hotplug usb0  
+iface usb0 inet dhcp  
+  
+### Windows 10 PC  
+Go to Control Panel > Network and Sharing Center > Change adapter settings.  
+Right-click on the USB network adapter and select Properties.  
+Select "Internet Protocol Version 4 (TCP/IPv4)" and click Properties.  
+Choose "Obtain an IP address automatically" and Obtain DNS server address automatically.  
+Click OK to save the settings.  
+  
 ### Update hostname (choose one)
 sudo hostnamectl set-hostname radxa-red  
 sudo hostnamectl set-hostname radxa-white  
@@ -35,6 +59,9 @@ sudo iw dev wlan0 set type mp
 sudo ip link set wlan0 up  
 sudo iw dev wlan0 mesh join Xmesh freq 2437 HT40+  
 sudo ip addr add 10.1.100.10/24 dev wlan0  
+
+### Forget WiFi Networks
+sudo rm /etc/NetworkManager/system-connections/*  
 
 ### /etc/NetworkManager/system-connections/mesh-network.nmconnection
 [connection]  
