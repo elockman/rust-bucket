@@ -119,6 +119,10 @@ sudo chmod +x /home/radxa/mesh_startup.sh
 sudo systemctl enable rc-local  
 sudo systemctl start rc-local  
 
+### Set User & PW  
+build/conf/local.conf  
+EXTRA_USERS_PARAMS = "usermod -p $(openssl passwd -1 my_user_password) my_user_name;"  
+  
 ### Reboot
 sudo reboot  
 
